@@ -1,0 +1,41 @@
+name: JARVIS AI Test
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Check Python files
+        run: |
+          python -m py_compile main.py
+          python -m py_compile jarvis/__init__.py
+          python -m py_compile jarvis/ai.py
+          python -m py_compile jarvis/config.py
+          python -m py_compile jarvis/system.py
+          python -m py_compile jarvis/voice.py
+          python -m py_compile jarvis/web.py
+
+      - name: Test imports
+        run: |
+          python -c "from jarvis.ai import JarvisAI"
+          python -c "from jarvis.config import config"
+          python -c "from jarvis.system import system_info"
