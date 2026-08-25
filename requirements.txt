@@ -1,5 +1,5 @@
-
 requests
 python-dotenv
 pyttsx3
 SpeechRecognition
+Flask
